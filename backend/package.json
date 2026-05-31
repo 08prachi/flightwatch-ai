@@ -1,0 +1,27 @@
+{
+  "name": "flightwatch-backend",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "worker": "tsx src/workers/priceCheck.worker.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "bullmq": "^2.0.0",
+    "dotenv": "^16.0.0",
+    "get-tsconfig": "^4.14.0",
+    "ioredis": "^5.0.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "prisma": "^5.0.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5.5.0"
+  }
+}

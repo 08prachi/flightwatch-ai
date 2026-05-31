@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  watchlists    Watchlist[]
+  notifications Notification[]
+}
+
+model Watchlist {
+  id String @id @default(uuid())
+
+  // Airport codes
+  origin      String
+  destination String
+
+  // Travel dates
+  departureDate DateTime
+  returnDate    DateTime?
+
+  // Budget and pricing
+  budget       Float
+  currentPrice Float?
+  lowestPrice  Float?
+
+  // Preferences
+  passengers  Int @default(1)
+  flightType  String @default("any") // direct, oneStop, any
+  airline     String?
+  cabinClass  String @default("economy")
+
+  // Status
+  active Boolean @default(true)
+
+  // User reference
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relations
+  priceHistories PriceHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([active])
+}
+
+model PriceHistory {
+  id String @id @default(uuid())
+
+  watchlistId String
+  watchlist   Watchlist @relation(fields: [watchlistId], references: [id], onDelete: Cascade)
+
+  price        Float
+  flightCount  Int @default(0)
+  lowestPrice  Float?
+  highestPrice Float?
+
+  createdAt DateTime @default(now())
+
+  @@index([watchlistId])
+  @@index([createdAt])
+}
+
+model Notification {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type    String // price_drop, price_alert, price_warning, system
+  title   String
+  message String
+  data    String? // JSON string for additional data
+
+  read Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([read])
+  @@index([createdAt])
+}

@@ -1,0 +1,60 @@
+{
+  "name": "flightwatch-ai",
+  "version": "1.0.0",
+  "description": "Smart flight price tracking platform",
+  "type": "commonjs",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "backend:dev": "cd backend && npm run dev",
+    "frontend:dev": "cd frontend && npm run dev",
+    "build": "npm run backend:build && npm run frontend:build",
+    "backend:build": "cd backend && npm run build",
+    "frontend:build": "cd frontend && npm run build",
+    "start": "node backend/dist/index.js",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "axios": "^1.16.1",
+    "bcrypt": "^6.0.0",
+    "bullmq": "^5.77.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "ioredis": "^5.11.0",
+    "jsonwebtoken": "^9.0.3",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^8.0.10",
+    "pdfkit": "^0.18.0",
+    "prisma": "^6.19.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^8.0.0",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.14",
+    "playwright": "^1.60.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/08prachi/flightwatch-ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/08prachi/flightwatch-ai/issues"
+  },
+  "homepage": "https://github.com/08prachi/flightwatch-ai#readme"
+}

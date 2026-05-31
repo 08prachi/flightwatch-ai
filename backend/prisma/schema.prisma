@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String         @unique
+  password      String
+  createdAt     DateTime       @default(now())
+  watchlists    Watchlist[]
+  notifications Notification[]
+}
+
+model Watchlist {
+  id                  String        @id @default(cuid())
+  user                User          @relation(fields: [userId], references: [id])
+  userId              String
+  origin              String
+  destination         String
+  departureDate       DateTime
+  returnDate          DateTime?
+  budget              Decimal
+  passengers          Int
+  flightType          String
+  cabinClass          String
+  active              Boolean       @default(true)
+  currentPrice        Decimal?
+  lowestPrice         Decimal?
+  createdAt           DateTime      @default(now())
+  priceHistory        PriceHistory[]
+  notifications       Notification[]
+
+  @@index([userId])
+}
+
+model PriceHistory {
+  id           String   @id @default(cuid())
+  watchlist    Watchlist @relation(fields: [watchlistId], references: [id])
+  watchlistId  String
+  airline      String?
+  flightNumber String?
+  departureTime DateTime?
+  arrivalTime   DateTime?
+  price        Decimal?
+  currency     String?
+  stops        Int?
+  checkedAt    DateTime @default(now())
+
+  @@index([watchlistId])
+  @@index([checkedAt])
+}
+
+model Notification {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  watchlist   Watchlist? @relation(fields: [watchlistId], references: [id])
+  watchlistId String?
+  type        String?
+  message     String?
+  sentAt      DateTime  @default(now())
+
+  @@index([userId])
+}

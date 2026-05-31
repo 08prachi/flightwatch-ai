@@ -1,4 +1,18 @@
-version: '3.8'
-
 services:
-  # Add your services here
+  postgres:
+    image: postgres:16
+    container_name: flightwatch-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: flightwatch
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    container_name: flightwatch-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
