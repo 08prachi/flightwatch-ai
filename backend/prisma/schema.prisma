@@ -40,20 +40,17 @@ model Watchlist {
 }
 
 model PriceHistory {
-  id           String   @id @default(cuid())
-  watchlist    Watchlist @relation(fields: [watchlistId], references: [id])
+  id           String    @id @default(cuid())
+  watchlist    Watchlist @relation(fields: [watchlistId], references: [id], onDelete: Cascade)
   watchlistId  String
-  airline      String?
-  flightNumber String?
-  departureTime DateTime?
-  arrivalTime   DateTime?
-  price        Decimal?
-  currency     String?
-  stops        Int?
-  checkedAt    DateTime @default(now())
+  price        Decimal
+  flightCount  Int?
+  lowestPrice  Decimal?
+  highestPrice Decimal?
+  createdAt    DateTime  @default(now())
 
   @@index([watchlistId])
-  @@index([checkedAt])
+  @@index([createdAt])
 }
 
 model Notification {

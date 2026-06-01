@@ -6,6 +6,7 @@ import userRoutes from "./routes/user.routes";
 import watchlistRoutes from "./routes/watchlist.routes";
 import notificationRoutes from "./routes/notification.routes";
 import searchRoutes from "./routes/search.routes";
+import queueRoutes from "./routes/queue.routes";
 
 import "./workers/priceCheck.worker";
 import "./schedulers/watchlist.scheduler";
@@ -37,6 +38,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/watchlists", watchlistRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api", searchRoutes);
+app.use("/api", queueRoutes);
 
 app.use(
   "/api/auth",
